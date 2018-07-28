@@ -7,6 +7,8 @@
 #include "configuration.h"
 #include "dirScanner.h"
 #include "pageLib.h"
+#include <fstream>
+#include <sstream>
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -35,6 +37,30 @@ void test2(){
 	pageLib.store();
 }
 
+void test3(){
+
+	//读取网页库
+	std::ifstream ifsPageLib("../data/pageLib/pageLib.dat");
+	std::ifstream ifsOffset("../data/pageLib/offsetLib.dat");
+	if(!ifsPageLib.good() || !ifsOffset.good()){
+		cout<<"@["<<__FILE__<<"::"<<__FUNCTION__<<"]:>>\n";
+		cout << "ifstream error" << endl;
+	}
+	string line;
+	long docId,startPos,len;
+	while(std::getline(ifsOffset,line)){
+		//将line转化成istringstream来读取配置信息
+		std::istringstream iss(line);
+		iss >> docId >> startPos >> len;
+		//从ifs读取给定长度的字节
+		ifsPageLib.seekg(startPos);//定位到指定的开头
+		string doc(len,'0');//构造len长的string
+		ifsPageLib.read(&doc[0],len);//读len长字符到string种
+		cout<< doc;
+		cout << "======================";
+	}
+}
+
 int main(){
-	test2();
+	test3();
 }

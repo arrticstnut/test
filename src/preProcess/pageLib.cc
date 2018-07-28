@@ -72,7 +72,7 @@ namespace cc
 		//将文档输入到网页库中，并记录偏移信息
 		for(size_t idx = 0;idx < _vecPages.size();++idx){
 			auto startPos = ofsPageLib.tellp();
-			ofsPageLib << _vecPages[idx] << endl;
+			ofsPageLib << _vecPages[idx];
 			auto endPos = ofsPageLib.tellp();
 			_offsetLib[idx] = std::make_pair(startPos,endPos-startPos);
 		}
