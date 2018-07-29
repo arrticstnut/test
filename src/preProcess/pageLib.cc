@@ -22,7 +22,7 @@ namespace cc
 		cc::PageDataReader reader;//读取从网页爬取的数据
 		vector<cc::PageItem> vecPageItem;
 		//从配置文件中得到pageData的路径
-		map<string,string> confMap = _conf.getConfMap();
+		const map<string,string> confMap = _conf.getConfMap();
 		auto itdata = confMap.find("PageDataDir");
 		if(itdata == confMap.end()){
 			cout<<"@["<<__FILE__<<"::"<<__FUNCTION__<<"]:>>\n";
@@ -52,7 +52,7 @@ namespace cc
 
 	void PageLib::store(){//存储网页库和偏移库
 		//从配置文件中得到pageLib的路径
-		map<string,string> confMap = _conf.getConfMap();
+		const map<string,string> confMap = _conf.getConfMap();
 		auto itlib = confMap.find("PageLibDir");
 		if(itlib == confMap.end()){
 			cout<<"@["<<__FILE__<<"::"<<__FUNCTION__<<"]:>>\n";

@@ -9,12 +9,14 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <sstream>
 using std::cout;
 using std::endl;
 using std::vector;
 using std::string;
 using std::ifstream;
 using std::ofstream;
+using std::istringstream;
 using namespace cppjieba;
 //const char* const DICT_PATH = "./dict/jieba.dict.utf8";
 //const char* const HMM_PATH = "./dict/hmm_model.utf8";
@@ -27,9 +29,9 @@ namespace cc
 	class WordSegmentation
 	{
 		public:
-			WordSegmentation()
-			{}
-			void cut(const string &);//分词
+			WordSegmentation();
+			vector<string> cutFile(const string & fileName);//对传入的文件分词
+			vector<string> cutStr(const string & str);//对传入的字符串分词
 			void save(const string &);//分词后保存到文件
 			vector<string> getCutWords();//得到分词后的结果
 			void setPath(const string &,const string &,const string &,const string &,const string &);
@@ -39,19 +41,12 @@ namespace cc
 			void setIdfPath(const string &);
 			void setStopWordPath(const string &);
 		private:
-			//路径是相对于 Jieba.hpp 的
-			//const char* const DICT_PATH = "../data/cppjiebaDict/dict/jieba.dict.utf8";
-			//const char* const HMM_PATH = "../data/cppjiebaDict/dict/hmm_model.utf8";
-			//const char* const USER_DICT_PATH = "../data/cppjiebaDict/dict/user.dict.utf8";
-			//const char* const IDF_PATH = "../data/cppjiebaDict/dict/idf.utf8";
-			//const char* const STOP_WORD_PATH = "../data/cppjiebaDict/dict/stop_words.utf8";
-			
-			//路径是相对于 Jieba.hpp 的
-			string _dict_path = "./cppjiebaDict/dict/jieba.dict.utf8";//jieba词典路径
-			string _hmm_path = "./cppjiebaDict/dict/hmm_model.utf8";//hmm模型路径
-			string _user_dict_path = "./cppjiebaDict/dict/user.dict.utf8";//用户自定义词典路径
-			string _idf_path = "./cppjiebaDict/dict/idf.utf8";;//倒排词典路径
-			string _stop_word_path = "./cppjiebaDict/dict/stop_words.utf8";//停用词词典路径
+			//路径是相对于 .exe 的
+			string _dict_path ;//jieba词典路径
+			string _hmm_path ;//hmm模型路径
+			string _user_dict_path ;//用户自定义词典路径
+			string _idf_path ;//倒排词典路径
+			string _stop_word_path ;//停用词词典路径
 		private:
 			vector<string> _vecWords;//分词后的结果
 	};

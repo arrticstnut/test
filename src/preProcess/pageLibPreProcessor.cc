@@ -12,6 +12,7 @@
 using std::cout;
 using std::endl;
 using std::ifstream;
+using std::regex_search;
 
 namespace cc
 {
@@ -20,11 +21,38 @@ namespace cc
 		,_conf(conf)
 		,_jieba(jieba)
 		{
-			processDoc(_doc,_conf,_jieba);
+			//processDoc(_doc,_conf,_jieba);
 		}
 
 		void WebPage::processDoc(const string & doc,Configuration & conf,WordSegmentation & jieba){//对格式化文档进行处理
-			std::regex rDocId("<title>.*</title>")
+			//使用正则表达式提取信息
+			std::regex rId("(?:<docid>)((.|\n)*)(?:</docid>)");
+			std::regex rTitle("(?:<title>)((.|\n)*)(?:</title>)");
+			std::regex rLink("(?:<link>)((.|\n)*)(?:</link>)");
+			std::regex rCont("(?:<content>)((.|\n)*)(?:</content>)");
+			std::smatch smId;
+			std::smatch smTitle;
+			std::smatch smLink;
+			std::smatch smCont;
+			if(!regex_search(doc,smId,rId) || !regex_search(doc,smTitle,rTitle) || !regex_search(doc,smLink,rLink) || !regex_search(doc,smCont,rCont)){
+				cout<<"@["<<__FILE__<<"::"<<__FUNCTION__<<"]:>>\n";
+				cout << "regex_search error" << endl;
+				return ;
+			}
+			_docId = std::stoi(smId.str(1));
+			_docTitle = smTitle.str(1);
+			_docUrl = smLink.str(1);
+			_docContent = smCont.str(1);
+			//统计词频
+			vector<string> vecWords = _jieba.cutStr(_docContent);
+			for(auto & e:vecWords){
+				cout << e << endl;
+			}
+			set<string> stopWords = conf.getStopWordList();
+			cout << stopWords.size();
+			for(auto & e:stopWords){
+				cout << e << " ";
+			}
 			//pass
 		}
 

@@ -1,10 +1,10 @@
 INC_DIR:= \
 	./include/ \
 	./include/wordSegmentation/cppjieba/ \
+	./include/wordSegmentation/ \
 	./include/wordSegmentation/cppjieba/limonp/ \
 	./include/tinyxml2/ \
 	./include/configuration/ \
-	./include/wordSegmentation/ \
 	./include/preProcess/ \
 #SRC_DIR:= 
 #	./src/ \

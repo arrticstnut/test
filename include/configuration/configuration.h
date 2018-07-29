@@ -10,20 +10,26 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <vector>
+#include <set>
 using std::map;
 using std::string;
 using std::cout;
 using std::endl;
+using std::set;
+using std::vector;
 namespace cc
 {
 class Configuration
 {
 	public:
 		Configuration(const string &);
-		map<string,string> & getConfMap();
+		const map<string,string> & getConfMap()const;
+		set<string> getStopWordList();
 	private:
 		string _confFilePath;
-		map<string,string> _confMap;	
+		map<string,string> _confMap;
+		set<string> _stopWordList;//停用词
 };
 }//namespace cc
 #endif
