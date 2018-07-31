@@ -29,7 +29,14 @@ namespace cc
 	class WordSegmentation
 	{
 		public:
-			WordSegmentation();
+			//WordSegmentation() = delete;
+			WordSegmentation(
+					const string & dict_path = "../include/wordSegmentation/cppjiebaDict/dict/jieba.dict.utf8",
+					const string & hmm_path = "../include/wordSegmentation/cppjiebaDict/dict/hmm_model.utf8",
+					const string & user_dict_path = "../include/wordSegmentation/cppjiebaDict/dict/user.dict.utf8",
+					const string & idf_path = "../include/wordSegmentation/cppjiebaDict/dict/idf.utf8",
+					const string & stop_word_path = "../include/wordSegmentation/cppjiebaDict/dict/stop_words.utf8"
+					);
 			vector<string> cutFile(const string & fileName);//对传入的文件分词
 			vector<string> cutStr(const string & str);//对传入的字符串分词
 			void save(const string &);//分词后保存到文件
@@ -48,6 +55,7 @@ namespace cc
 			string _idf_path ;//倒排词典路径
 			string _stop_word_path ;//停用词词典路径
 		private:
+			cppjieba::Jieba _cppjieba;
 			vector<string> _vecWords;//分词后的结果
 	};
 

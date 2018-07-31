@@ -59,8 +59,11 @@ void test3(){
 		ifsPageLib.seekg(startPos);//定位到指定的开头
 		string doc(len,'0');//构造len长的string
 		ifsPageLib.read(&doc[0],len);//读len长字符到string种
+		//===========================
+		cout << "======================";
 		cout<< doc;
 		cout << "======================";
+		//===========================
 	}
 }
 
@@ -68,9 +71,15 @@ void test4(){
 	string doc = "<doc>\n <docid>233</docid>\n <title>欢迎加入微信：一些准备工作</title>\n <link>https://xbeta.info/wechat.htm</link>\n <content>因工作繁忙，本博客更新日益减少。\n 微博更新相对多一些：@善用佳软  http://weibo.com/xbeta\n 微信公众号（扫码添加）偶尔会写一些内容。\n 关注微信公众号之后，也可以按操作找朋友拉入微信群：xbeta微信试验群 ——如何使用，还没想好  。加入后保先持沉默即可，不用打招呼。反正我不太聊天。\n ......(共147字)</content>\n </doc>";
 	cc::Configuration conf("../configuration/configuration.conf");//相对于bin运行时所在的路径
 	cc::WordSegmentation jieba;
-	cc::WebPage webPage(doc,conf,jieba);
+	cc::WebPage webPage;
 	webPage.processDoc(doc,conf,jieba);
 }
+
+void test6(){
+	cc::Configuration conf("../configuration/configuration.conf");//相对于bin运行时所在的路径
+	cc::WordSegmentation jieba;
+	cc::PageLibPreProcessor preProcessor(conf,jieba);
+}
 int main(){
-	test4();
+	test6();
 }

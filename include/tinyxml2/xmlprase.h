@@ -34,10 +34,10 @@ class RssReader{
 };
 
 struct PageItem{
+	int docid;
 	string title;
 	string link;
 	string content;
-	string description;
 };
 
 class PageDataReader{

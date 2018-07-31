@@ -13,16 +13,22 @@ using std::endl;
 namespace cc
 {
 
-	
+
 	//路径是相对于 .exe 的
-	WordSegmentation::WordSegmentation()
-	{
-			_dict_path = "../include/wordSegmentation/cppjiebaDict/dict/jieba.dict.utf8";
-			_hmm_path = "../include/wordSegmentation/cppjiebaDict/dict/hmm_model.utf8";
-			_user_dict_path = "../include/wordSegmentation/cppjiebaDict/dict/user.dict.utf8";
-			_idf_path = "../include/wordSegmentation/cppjiebaDict/dict/idf.utf8";
-			_stop_word_path = "../include/wordSegmentation/cppjiebaDict/dict/stop_words.utf8";
-	}
+	WordSegmentation::WordSegmentation(
+		const string & dict_path,
+		const string & hmm_path,
+		const string & user_dict_path,
+		const string & idf_path,
+		const string & stop_word_path
+		)
+		:_dict_path(dict_path)
+		,_hmm_path(hmm_path)
+		,_user_dict_path(user_dict_path)
+		,_idf_path(idf_path)
+		,_stop_word_path(stop_word_path)
+		,_cppjieba(_dict_path.c_str(),_hmm_path.c_str(),_user_dict_path.c_str(),_idf_path.c_str(),_stop_word_path.c_str())
+	{}
 	void WordSegmentation::save(const string & fileOut) {
 		ofstream ofs(fileOut);
 		if(!ofs.good()){
@@ -38,12 +44,12 @@ namespace cc
 	}
 
 	vector<string> WordSegmentation::cutFile(const string & fileIn) {
-		cppjieba::Jieba jieba(
-				_dict_path.c_str(),
-				_hmm_path.c_str(),
-				_user_dict_path.c_str(),
-				_idf_path.c_str(),
-				_stop_word_path.c_str());
+		//cppjieba::Jieba jieba(
+		//		_dict_path.c_str(),
+		//		_hmm_path.c_str(),
+		//		_user_dict_path.c_str(),
+		//		_idf_path.c_str(),
+		//		_stop_word_path.c_str());
 		vector<string> res;
 		string doc;
 		ifstream ifs(fileIn);
@@ -53,9 +59,10 @@ namespace cc
 			ifs.close();
 			return _vecWords;
 		}
+		_vecWords.clear();
 		while(ifs>>doc){
 			res.clear();
-			jieba.Cut(doc, res);
+			_cppjieba.Cut(doc, res);
 			for(auto & elem:res){
 				_vecWords.push_back(elem);
 			}
@@ -65,12 +72,12 @@ namespace cc
 	}
 
 	vector<string> WordSegmentation::cutStr(const string & str) {
-		cppjieba::Jieba jieba(
-				_dict_path.c_str(),
-				_hmm_path.c_str(),
-				_user_dict_path.c_str(),
-				_idf_path.c_str(),
-				_stop_word_path.c_str());
+		//cppjieba::Jieba jieba(
+		//		_dict_path.c_str(),
+		//		_hmm_path.c_str(),
+		//		_user_dict_path.c_str(),
+		//		_idf_path.c_str(),
+		//		_stop_word_path.c_str());
 		vector<string> res;
 		string doc;
 		istringstream iss(str);
@@ -79,9 +86,10 @@ namespace cc
 			cout<<"open str error"<<endl;
 			return _vecWords;
 		}
+		_vecWords.clear();
 		while(iss>>doc){
 			res.clear();
-			jieba.Cut(doc, res);
+			_cppjieba.Cut(doc, res);
 			for(auto & elem:res){
 				_vecWords.push_back(elem);
 			}

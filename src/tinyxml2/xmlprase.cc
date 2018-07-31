@@ -5,6 +5,7 @@
 ///
 #include "tinyxml2.h" 
 #include "xmlprase.h"
+#include <cstdlib>
 #include  <regex>
 
 using namespace tinyxml2;
@@ -82,11 +83,12 @@ namespace cc
 		int idx=0;
 		int size=_rss.size();
 		for(idx=0;idx < size;++idx){
-			ofs<<"<doc>"<<endl;
-			ofs<<'\t'<<"<title>"<<_rss[idx].title<<"</title>"<<endl;
-			ofs<<'\t'<<"<link>"<<_rss[idx].link<<"</link>"<<endl;
-			ofs<<'\t'<<"<content>"<<_rss[idx].content<<"</content>"<<endl;
-			ofs<<"</doc>"<<endl;
+			ofs << "<doc>" <<endl;
+			ofs << '\t'<< "<docid>" << idx <<"</docid>"<< endl;
+			ofs << '\t'<< "<title>" << _rss[idx].title <<"</title>"<< endl;
+			ofs << '\t'<< "<link>" << _rss[idx].link <<"</link>"<< endl;
+			ofs << '\t'<< "<content>" << _rss[idx].content << "</content>" << endl;
+			ofs << "</doc>" <<endl;
 		}
 		ofs.close();
 	}
@@ -97,7 +99,7 @@ namespace cc
 	}
 
 
-	void PageDataReader::parsePageData(const string & filename){//解析从网页爬取下来的网页数据
+	void PageDataReader::parsePageData(const string & filename){//解析从网页库
 		XMLDocument docs;//docs就是整个网页库
 		if(docs.LoadFile(filename.c_str())!=tinyxml2::XMLError::XML_SUCCESS){
 			cout<<"@["<<__FILE__<<"::"<<__FUNCTION__<<"]:>>>>\n"; 
@@ -107,10 +109,11 @@ namespace cc
 			//cout<<"[LoadFile]:[success]:"<<"["<<filename<<"]"<<endl;
 		}
 		XMLElement *doc = docs.RootElement();//得到第1个doc
-		XMLElement *title,*link,*content;
+		XMLElement *docid,*title,*link,*content;
 		//XMLElement *description;
 		PageItem pageItem;
 		while(doc){
+			docid = doc->FirstChildElement("docid");
 			title = doc->FirstChildElement("title");
 			link = doc->FirstChildElement("link");
 			content = doc->FirstChildElement("content");
@@ -119,10 +122,12 @@ namespace cc
 				cout<<"@["<<__FILE__<<"::"<<__FUNCTION__<<"]:>>\n";
 				cout<< "pagelib attribute name error" << endl;
 			}
+			const char *pDocIdText = docid->GetText();
 			const char *pTitleText = title->GetText();
 			const char *pLinkText = link->GetText();
 			const char *pContentText = content->GetText();
 			//要判断指针是否为空，否则赋值给string会出错
+			pageItem.docid = pTitleText ? std::atoi(pDocIdText) : 0;
 			pageItem.title = pTitleText ? pTitleText : "";
 			pageItem.link =  pLinkText ? pLinkText : "";
 			pageItem.content = pContentText ? pContentText : "";
@@ -146,11 +151,12 @@ namespace cc
 		int idx=0;
 		int size=_vecPageItem.size();
 		for(idx=0;idx < size;++idx){
-			ofs<<"<doc>"<<endl;
-			ofs<<'\t'<<"<title>"<<_vecPageItem[idx].title<<"</title>"<<endl;
-			ofs<<'\t'<<"<link>"<<_vecPageItem[idx].link<<"</link>"<<endl;
-			ofs<<'\t'<<"<content>"<<_vecPageItem[idx].content<<"</content>"<<endl;
-			ofs<<"</doc>"<<endl;
+			ofs << "<doc>" << endl;
+			ofs << '\t' << "<docid>" << idx << "</docid>" << endl;
+			ofs << '\t' << "<title>" << _vecPageItem[idx].title << "</title>" << endl;
+			ofs << '\t' << "<link>" << _vecPageItem[idx].link << "</link>" << endl;
+			ofs << '\t' << "<content>" << _vecPageItem[idx].content << "</content>" << endl;
+			ofs << "</doc>" <<endl;
 		}
 		ofs.close();
 	}
