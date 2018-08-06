@@ -80,6 +80,16 @@ void test6(){
 	cc::WordSegmentation jieba;
 	cc::PageLibPreProcessor preProcessor(conf,jieba);
 }
+
+void test7(){
+	cc::Configuration conf("../configuration/configuration.conf");//相对于bin运行时所在的路径
+	cc::DirScanner dirScanner;
+	cc::PageLib pageLib(conf,dirScanner);
+	pageLib.create();
+	pageLib.store();
+	cc::WordSegmentation jieba;
+	cc::PageLibPreProcessor preProcessor(conf,jieba);
+}
 int main(){
-	test6();
+	test7();
 }
