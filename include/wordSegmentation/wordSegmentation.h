@@ -3,6 +3,8 @@
 /// @author  
 /// @date    2018-07-19 16:43:57
 ///
+#ifndef __CC_WORDSEGMENTATION_H__
+#define __CC_WORDSEGMENTATION_H__
 
 #include "Jieba.hpp"
 #include <iostream>
@@ -61,3 +63,4 @@ namespace cc
 
 }//namespace cc
 
+#endif

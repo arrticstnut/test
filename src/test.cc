@@ -15,6 +15,7 @@
 using std::cout;
 using std::endl;
 
+#if 0
 int test1(){
 	cc::Configuration conf("../configuration/configuration.conf");
 	cc::DirScanner ds;
@@ -81,6 +82,7 @@ void test6(){
 	cc::PageLibPreProcessor preProcessor(conf,jieba);
 }
 
+#endif
 void test7(){
 	cc::Configuration conf("../configuration/configuration.conf");//相对于bin运行时所在的路径
 	cc::DirScanner dirScanner;
